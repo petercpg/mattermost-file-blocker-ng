@@ -14,11 +14,11 @@ func TestFormatRejectMessage(t *testing.T) {
 
 	// Fallback when empty with Traditional Chinese
 	zhResult := FormatRejectMessage("", "test.bat", ".bat", "Blocked", "zh-TW")
-	assert.Contains(t, zhResult, "檔案上傳遭拒")
+	assert.Contains(t, zhResult, "系統資安政策禁止上傳")
 
 	// Fallback when empty with English
 	enResult := FormatRejectMessage("", "test.bat", ".bat", "Blocked", "en")
-	assert.Contains(t, enResult, "File upload blocked by security policy")
+	assert.Contains(t, enResult, "Uploading this type of file or script is prohibited")
 }
 
 func TestBuildCheckConfig(t *testing.T) {

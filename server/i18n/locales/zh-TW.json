@@ -6,7 +6,7 @@
   "reason.deep_executable": "檔案內容特徵探測為可執行二進位檔（{{detail}}），違反安全性原則",
   "reason.deep_script": "檔案內容含有指令碼或指令特徵（{{detail}}），已遭攔截",
   "reason.zip_restricted": "ZIP 壓縮檔內含有受封鎖的可能危險檔案：{{file}}",
-  "msg.default_reject": "檔案上傳遭拒：系統資安政策禁止上傳此類型的檔案或腳本。請注意防範 ClickFix 與假指令攻擊。如有業務需求請洽 IT 資安人員。",
+  "msg.default_reject": "系統資安政策禁止上傳此類型的檔案或指令碼。如有業務需求請洽系統管理員。",
   "alert.header": "### 🚨 檔案上傳遭攔截",
   "alert.uploader": "- **上傳使用者**：`{{user}}`",
   "alert.filename": "- **嘗試檔名**：`{{filename}}`",
