@@ -13,7 +13,7 @@ var manifest *model.Manifest
 
 const manifestStr = `
 {
-  "id": "com.mattermost.file-blocker-ng",
+  "id": "mattermost-file-blocker-ng",
   "name": "File Blocker NG",
   "description": "Block file uploads based on configurable extensions, MIME types, and deep inspection to protect against malware and ClickFix attacks.",
   "homepage_url": "https://github.com/petercpg/mattermost-file-blocker-ng",

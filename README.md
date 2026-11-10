@@ -72,7 +72,7 @@ make test
 # 2. 跨平台編譯伺服器端二進位檔 (Linux, Darwin, Windows)
 make server
 
-# 3. 產出正式外掛安裝包 (dist/com.mattermost.file-blocker-ng-0.1.0.tar.gz)
+# 3. 產出正式外掛安裝包 (dist/mattermost-file-blocker-ng-X.Y.Z.tar.gz)
 make dist
 
 # 4. 清理構建產物
@@ -87,7 +87,7 @@ make clean
 1. 執行 `make dist`。系統會在 `dist/` 產出安裝套件。
 2. 登入 Mattermost 系統主控台（**System Console**）。
 3. 前往 **Plugins > Plugin Management**。
-4. 在 **Upload Plugin** 區塊選取 `dist/com.mattermost.file-blocker-ng-0.1.0.tar.gz`。
+4. 在 **Upload Plugin** 區塊選取 `dist/mattermost-file-blocker-ng-X.Y.Z.tar.gz`。
 5. 點擊 **Upload** 進行上傳。
 6. 在外掛清單中找到 **File Blocker NG**。
 7. 點擊 **Enable** 啟用外掛。
@@ -97,7 +97,7 @@ make clean
 1. Run the command `make dist`.
 2. Sign in to the Mattermost System Console.
 3. Go to **Plugins > Plugin Management**.
-4. In the **Upload Plugin** section, select `dist/com.mattermost.file-blocker-ng-0.1.0.tar.gz`.
+4. In the **Upload Plugin** section, select `dist/mattermost-file-blocker-ng-X.Y.Z.tar.gz`.
 5. Select **Upload**.
 6. Find **File Blocker NG** in the installed plugins list.
 7. Select **Enable**.
