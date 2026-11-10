@@ -1,0 +1,120 @@
+{
+  "id": "com.mattermost.file-blocker-ng",
+  "name": "File Blocker NG",
+  "description": "Block file uploads based on configurable extensions, MIME types, and deep inspection to protect against malware and ClickFix attacks.",
+  "version": "0.1.0",
+  "min_server_version": "11.7.0",
+  "icon_path": "assets/icon.svg",
+  "server": {
+    "executables": {
+      "linux-amd64": "server/dist/plugin-linux-amd64",
+      "linux-arm64": "server/dist/plugin-linux-arm64",
+      "darwin-amd64": "server/dist/plugin-darwin-amd64",
+      "darwin-arm64": "server/dist/plugin-darwin-arm64",
+      "windows-amd64": "server/dist/plugin-windows-amd64.exe"
+    }
+  },
+  "settings_schema": {
+    "header": "### Mattermost File Blocker NG\nConfigure file extension, MIME type, and deep inspection rules to prevent unauthorized or malicious file uploads.",
+    "footer": "For enterprise security assistance or custom rule additions, please consult your organization's IT Security policy.",
+    "settings": [
+      {
+        "key": "EnableBlocker",
+        "display_name": "Enable File Blocker:",
+        "type": "bool",
+        "help_text": "When enabled, the plugin intercepts file uploads and applies filtering rules.",
+        "placeholder": "",
+        "default": true
+      },
+      {
+        "key": "FilterMode",
+        "display_name": "Filtering Mode:",
+        "type": "dropdown",
+        "help_text": "Choose whether to block specified extensions (Blacklist / Deny List) or only allow specified extensions (Whitelist / Allow List).",
+        "default": "blacklist",
+        "options": [
+          {
+            "display_name": "Blacklist (Deny specified extensions and MIME types)",
+            "value": "blacklist"
+          },
+          {
+            "display_name": "Whitelist (Allow ONLY specified extensions)",
+            "value": "whitelist"
+          }
+        ]
+      },
+      {
+        "key": "BlockedExtensions",
+        "display_name": "Blocked File Extensions (Blacklist Mode):",
+        "type": "text",
+        "help_text": "Comma-separated list of file extensions to block (case-insensitive, e.g. exe, bat, cmd, sh, ps1, dll, lnk). Double extensions (e.g. .pdf.exe) are automatically inspected.",
+        "placeholder": "exe, bat, cmd, sh, bash, ps1, psm1, dll, com, vbs, js, hta, scr, pif, reg, lnk",
+        "default": "exe, bat, cmd, sh, bash, ps1, psm1, dll, com, vbs, js, hta, scr, pif, reg, lnk"
+      },
+      {
+        "key": "AllowedExtensions",
+        "display_name": "Allowed File Extensions (Whitelist Mode):",
+        "type": "text",
+        "help_text": "Comma-separated list of permitted extensions when Whitelist Mode is selected (e.g. pdf, doc, docx, xls, png, jpg). Any extension not listed will be rejected.",
+        "placeholder": "pdf, doc, docx, xls, xlsx, ppt, pptx, png, jpg, jpeg, gif, txt, zip",
+        "default": "pdf, doc, docx, xls, xlsx, ppt, pptx, png, jpg, jpeg, gif, txt, zip"
+      },
+      {
+        "key": "BlockedMimeTypes",
+        "display_name": "Blocked MIME Types:",
+        "type": "text",
+        "help_text": "Comma-separated list of MIME types or wildcards to block (e.g. application/x-msdownload, application/x-sh, application/x-bat, application/x-executable).",
+        "placeholder": "application/x-msdownload, application/x-sh, application/x-bat, application/x-executable",
+        "default": "application/x-msdownload, application/x-sh, application/x-bat, application/x-executable"
+      },
+      {
+        "key": "EnableDeepInspection",
+        "display_name": "Enable Deep Content Inspection (Magic Bytes & Script Sniffing):",
+        "type": "bool",
+        "help_text": "Inspect the first bytes of uploads to detect disguised executables (PE/ELF/Mach-O) and script shebangs/ClickFix signatures even if renamed to .txt or .pdf.",
+        "placeholder": "",
+        "default": true
+      },
+      {
+        "key": "InspectZipArchives",
+        "display_name": "Inspect Inside ZIP Archives:",
+        "type": "bool",
+        "help_text": "When enabled, ZIP uploads are inspected for contained files matching blocked extensions (preventing ClickFix payloads packaged inside zip archives).",
+        "placeholder": "",
+        "default": true
+      },
+      {
+        "key": "AllowSystemAdmins",
+        "display_name": "Exempt System Administrators:",
+        "type": "bool",
+        "help_text": "Allow system administrators to bypass file upload restrictions.",
+        "placeholder": "",
+        "default": true
+      },
+      {
+        "key": "ExemptChannelIDs",
+        "display_name": "Exempt Channel IDs:",
+        "type": "text",
+        "help_text": "Comma-separated list of Mattermost Channel IDs where file blocking rules will NOT be enforced (e.g. dedicated IT admin or testing channels).",
+        "placeholder": "channel_id_1, channel_id_2",
+        "default": ""
+      },
+      {
+        "key": "CustomRejectMessage",
+        "display_name": "Custom Rejection Message:",
+        "type": "longtext",
+        "help_text": "Optional custom message presented to users when a file upload is blocked. Leave empty to automatically use the user's localized language message (Traditional Chinese / English). Supported placeholders: {{filename}}, {{extension}}, {{reason}}.",
+        "placeholder": "Leave empty to use automatic localized message, or enter custom policy text...",
+        "default": ""
+      },
+      {
+        "key": "AlertChannelID",
+        "display_name": "Security Alert Channel ID (Optional):",
+        "type": "text",
+        "help_text": "Channel ID where automated security alert messages will be posted when an upload is blocked. Leave empty to disable bot notifications.",
+        "placeholder": "alert_channel_id",
+        "default": ""
+      }
+    ]
+  }
+}

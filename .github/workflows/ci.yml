@@ -1,0 +1,85 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    tags:
+      - "v*"
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint & Style Check
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Verify Manifest & Formats
+        run: |
+          go vet ./...
+          make apply
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: v1.64.5
+          args: --timeout=5m
+
+  test:
+    name: Unit Tests & Coverage
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Run Go Unit Tests
+        run: |
+          go test -race -v -coverprofile=coverage.txt -covermode=atomic ./...
+
+      - name: Upload Coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.txt
+          retention-days: 7
+
+  build-check:
+    name: Build & Package Bundle
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Build plugin bundle
+        run: make dist
+
+      - name: Upload Plugin Bundle Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: plugin-bundle
+          path: dist/*.tar.gz
+          retention-days: 14
