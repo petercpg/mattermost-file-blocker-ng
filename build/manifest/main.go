@@ -138,8 +138,8 @@ func findManifest() (*model.Manifest, error) {
 		manifest.Version = strings.TrimPrefix(version, "v")
 	}
 
-	// If no release notes specified, generate one from the latest tag, if present.
-	if manifest.ReleaseNotesURL == "" && BuildTagLatest != "" {
+	// If no release notes specified, generate one from the latest tag, if present and homepage is configured.
+	if manifest.ReleaseNotesURL == "" && BuildTagLatest != "" && manifest.HomepageURL != "" {
 		releaseNotesURL, err := url.JoinPath(manifest.HomepageURL, "releases", "tag", BuildTagLatest)
 		if err != nil {
 			return nil, errors.Wrap(err, "failed to build release notes URL")
