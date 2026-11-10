@@ -42,7 +42,7 @@ func TestExecuteCommand(t *testing.T) {
 	// 4. Test command - missing argument
 	resp, appErr = p.ExecuteCommand(c, &model.CommandArgs{Command: "/fileblocker test"})
 	assert.Nil(t, appErr)
-	assert.Contains(t, resp.Text, "Please specify a filename")
+	assert.Contains(t, resp.Text, "Specify a file name to test")
 
 	// 5. Help command
 	resp, appErr = p.ExecuteCommand(c, &model.CommandArgs{Command: "/fileblocker help"})

@@ -9,9 +9,9 @@ import (
 func TestI18nTranslations(t *testing.T) {
 	// 1. English
 	enMsg := T("en", "reason.whitelist_extension", map[string]string{"ext": "exe"})
-	assert.Equal(t, "Extension .exe is not in the whitelist permitted list", enMsg)
+	assert.Equal(t, "The extension .exe is not in the allowlist.", enMsg)
 
-	// 2. Traditional Chinese (updated copy)
+	// 2. Traditional Chinese
 	zhTWMsg := T("zh-TW", "reason.whitelist_extension", map[string]string{"ext": "exe"})
 	assert.Equal(t, "副檔名 .exe 不在允許清單中", zhTWMsg)
 
@@ -21,7 +21,7 @@ func TestI18nTranslations(t *testing.T) {
 
 	// 4. Default / Fallback from unknown locale (e.g. "fr-FR")
 	fallbackMsg := T("fr-FR", "reason.no_extension")
-	assert.Equal(t, "File has no extension, whitelist security policy rejected upload", fallbackMsg)
+	assert.Equal(t, "The file has no extension. The allowlist policy rejected the upload.", fallbackMsg)
 
 	// 5. Unknown key returns key itself
 	unknown := T("en", "non.existent.key")

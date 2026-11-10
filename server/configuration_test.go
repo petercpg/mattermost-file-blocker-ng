@@ -18,7 +18,7 @@ func TestFormatRejectMessage(t *testing.T) {
 
 	// Fallback when empty with English
 	enResult := FormatRejectMessage("", "test.bat", ".bat", "Blocked", "en")
-	assert.Contains(t, enResult, "Uploading this type of file or script is prohibited")
+	assert.Contains(t, enResult, "Security policy prohibits this file type")
 }
 
 func TestBuildCheckConfig(t *testing.T) {

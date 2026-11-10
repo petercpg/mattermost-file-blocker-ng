@@ -11,32 +11,32 @@
 
 ## 🛡️ 核心防禦能力與特色
 
-1. **雙重過濾模式 (Blacklist vs Whitelist)**
+1. **雙重過濾模式**
    - **黑名單模式（預設）**：阻擋常見高風險副檔名（`.exe`, `.bat`, `.cmd`, `.sh`, `.ps1`, `.vbs`, `.js`, `.lnk` 等，不阻擋 `.iso`）。
    - **白名單模式（嚴格資安）**：僅允許特定副檔名（如 `.pdf`, `.png`, `.jpg`, `.docx` 等），其餘一律攔截。
 
-2. **多層與雙重副檔名分析 (Double Extension Inspection)**
+2. **多層與雙重副檔名分析**
    - 精準防範攻擊者常用之詐騙後綴（如 `ClickFix_Update.pdf.bat`、`invoice.doc.ps1`）。只要檔名任一層級命中黑名單即判定違規。
 
-3. **深度特徵探測 (Magic Bytes & Script Sniffing)**
+3. **檔案特徵偵測**
    - **可執行檔特徵探測**：分析檔案開頭前 512 bytes，精準識別 Windows PE（`MZ`）、Linux ELF、macOS Mach-O 與 Windows 捷徑（`LNK`）。即使惡意程式改名為 `.txt` 或 `.pdf` 亦無所遁形。
    - **Shebang 與腳本特徵嗅探**：偵測 Unix Shebang（`#!/bin/sh`、`#!/bin/bash`）與常見 Windows 批次/PowerShell 攻擊特徵碼（如 `@echo off`、`powershell.exe -enc`、`certutil`、`mshta`）。
 
-4. **ZIP 壓縮包內嵌掃描 (Inspect Inside Archives)**
+4. **ZIP 壓縮包內嵌掃描**
    - 許多 ClickFix 攻擊會將惡意腳本壓縮為 `.zip` 傳遞。本外掛可自動解析 ZIP Central Directory，若包內藏有黑名單副檔名，**整包直接阻擋**。
 
-5. **細緻豁免機制 (Exemptions)**
+5. **細緻豁免機制**
    - 支援系統管理員（System Admins）免受限制。
    - 支援指定頻道 ID 豁免（例如專屬 IT 測試頻道）。
 
-6. **友善回饋與即時審計 (Auditing & Alerting)**
+6. **友善回饋與即時審計**
    - 阻擋時向使用者展示自訂提示，支援動態變數：`{{filename}}`、`{{extension}}`、`{{reason}}`。
    - 伺服器端結構化 Audit Log 記錄。
    - （選用）即時將資安阻擋事件推播至指定的管理頻道。
 
 ---
 
-## ⚙️ 後台設定說明 (System Console)
+## ⚙️ 後台設定說明
 
 安裝並啟用外掛後，系統管理員可前往 **System Console > Plugins > File Blocker NG** 進行配置：
 
@@ -83,9 +83,22 @@ make clean
 
 ## 📦 安裝步驟
 
-1. 執行 `make dist`，產出檔案位於 `dist/com.mattermost.file-blocker-ng-0.1.0.tar.gz`。
+### 繁體中文步驟
+1. 執行 `make dist`。系統會在 `dist/` 產出安裝套件。
 2. 登入 Mattermost 系統主控台（**System Console**）。
-3. 導覽至 **Plugins > Plugin Management**。
-4. 在 **Upload Plugin** 區塊中選取剛剛產出的 `.tar.gz` 壓縮包進行上傳。
-5. 上傳完成後，在已安裝外掛清單中找到 **File Blocker NG** 並點擊 **Enable** 啟用。
-6. 前往左側選單的 **File Blocker NG** 調整所需的安全性策略。
+3. 前往 **Plugins > Plugin Management**。
+4. 在 **Upload Plugin** 區塊選取 `dist/com.mattermost.file-blocker-ng-0.1.0.tar.gz`。
+5. 點擊 **Upload** 進行上傳。
+6. 在外掛清單中找到 **File Blocker NG**。
+7. 點擊 **Enable** 啟用外掛。
+8. 前往左側選單的 **File Blocker NG** 配置安全性規則。
+
+### English Procedure
+1. Run the command `make dist`.
+2. Sign in to the Mattermost System Console.
+3. Go to **Plugins > Plugin Management**.
+4. In the **Upload Plugin** section, select `dist/com.mattermost.file-blocker-ng-0.1.0.tar.gz`.
+5. Select **Upload**.
+6. Find **File Blocker NG** in the installed plugins list.
+7. Select **Enable**.
+8. Go to **Plugins > File Blocker NG** to configure the security policy.
