@@ -1,6 +1,6 @@
 # Mattermost File Blocker NG Plugin
 
-[![CI](https://github.com/mattermost/mattermost-file-blocker-ng/actions/workflows/ci.yml/badge.svg)](https://github.com/mattermost/mattermost-file-blocker-ng/actions/workflows/ci.yml)
+[![CI](https://github.com/petercpg/mattermost-file-blocker-ng/actions/workflows/ci.yml/badge.svg)](https://github.com/petercpg/mattermost-file-blocker-ng/actions/workflows/ci.yml)
 [![Mattermost 11.7 ESR](https://img.shields.io/badge/Mattermost-11.7%20ESR-blue.svg)](https://mattermost.com)
 
 **Mattermost File Blocker NG** 是一款專為企業安全設計的 Mattermost 伺服器端外掛。外掛基於官方 [mattermost-plugin-starter-template](https://github.com/mattermost/mattermost-plugin-starter-template) 樣板開發，最低相容支援 **Mattermost 11.7 ESR** 及其以上版本。
@@ -51,7 +51,7 @@
 | **Inspect Inside ZIP Archives** | `InspectZipArchives` | `true` | 是否掃描 ZIP 壓縮包內部的檔案名稱 |
 | **Exempt System Administrators** | `AllowSystemAdmins` | `true` | 系統管理員是否豁免檔案上傳限制 |
 | **Exempt Channel IDs** | `ExemptChannelIDs` | `""` | 豁免檢查的頻道 ID（逗號分隔） |
-| **Custom Rejection Message** | `CustomRejectMessage` | `"檔案上傳遭拒：系統資安政策禁止上傳此類型的檔案或腳本。請注意防範 ClickFix 與假指令攻擊。如有業務需求請洽 IT 資安人員。"` | 阻擋時向使用者呈現的自訂錯誤訊息 |
+| **Custom Rejection Message** | `CustomRejectMessage` | `""`（留空自動依使用者語系呈現繁中或英文） | 阻擋時向使用者呈現的自訂錯誤訊息（留空啟用自動多語系） |
 | **Security Alert Channel ID** | `AlertChannelID` | `""` | 發送阻擋告警之頻道 ID，留空則僅記錄 Log |
 
 ---
