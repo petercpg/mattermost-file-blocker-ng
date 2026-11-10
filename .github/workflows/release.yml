@@ -31,12 +31,18 @@ jobs:
 
       - name: Generate SPDX SBOM
         uses: anchore/sbom-action@v0
+        env:
+          SYFT_SOURCE_NAME: ${{ github.event.repository.name }}
+          SYFT_SOURCE_VERSION: ${{ github.ref_name }}
         with:
           format: spdx-json
           output-file: dist/sbom.spdx.json
 
       - name: Generate CycloneDX SBOM
         uses: anchore/sbom-action@v0
+        env:
+          SYFT_SOURCE_NAME: ${{ github.event.repository.name }}
+          SYFT_SOURCE_VERSION: ${{ github.ref_name }}
         with:
           format: cyclonedx-json
           output-file: dist/sbom.cyclonedx.json
