@@ -18,9 +18,9 @@ const manifestStr = `
   "description": "Block file uploads based on configurable extensions, MIME types, and deep inspection to protect against malware and ClickFix attacks.",
   "homepage_url": "https://github.com/petercpg/mattermost-file-blocker-ng",
   "support_url": "https://github.com/petercpg/mattermost-file-blocker-ng/issues",
-  "release_notes_url": "https://github.com/petercpg/mattermost-file-blocker-ng/releases/tag/v0.1.0",
+  "release_notes_url": "https://github.com/petercpg/mattermost-file-blocker-ng/releases/tag/v0.1.2",
   "icon_path": "assets/icon.svg",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "min_server_version": "11.7.0",
   "server": {
     "executables": {

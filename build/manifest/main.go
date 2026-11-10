@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/Masterminds/semver/v3"
 	"github.com/mattermost/mattermost/server/public/model"
 	"github.com/pkg/errors"
 )
@@ -117,34 +118,48 @@ func findManifest() (*model.Manifest, error) {
 		return nil, errors.Wrap(err, "failed to parse manifest")
 	}
 
-	// If no version is listed in the manifest, generate one based on the state of the current
-	// commit, and use the first version we find (to prevent causing errors)
+	// If the current commit is tagged with a release version (e.g. v0.1.1),
+	// prioritize the Git tag if manifest.Version is empty or if the tag is newer.
+	var currentTag string
+	for t := range strings.FieldsSeq(BuildTagCurrent) {
+		if strings.HasPrefix(t, "v") {
+			currentTag = t
+			break
+		}
+	}
 	if manifest.Version == "" {
-		var version string
-		tags := strings.FieldsSeq(BuildTagCurrent)
-		for t := range tags {
-			if strings.HasPrefix(t, "v") {
-				version = t
-				break
-			}
+		if currentTag != "" {
+			manifest.Version = strings.TrimPrefix(currentTag, "v")
+		} else if BuildTagLatest != "" {
+			manifest.Version = strings.TrimPrefix(BuildTagLatest, "v") + "+" + BuildHashShort
+		} else {
+			manifest.Version = "0.0.0+" + BuildHashShort
 		}
-		if version == "" {
-			if BuildTagLatest != "" {
-				version = BuildTagLatest + "+" + BuildHashShort
-			} else {
-				version = "v0.0.0+" + BuildHashShort
-			}
+	} else if currentTag != "" {
+		tagVer, errTag := semver.NewVersion(currentTag)
+		manifestVer, errMan := semver.NewVersion(manifest.Version)
+		if errTag == nil && errMan == nil && tagVer.GreaterThan(manifestVer) {
+			manifest.Version = strings.TrimPrefix(currentTag, "v")
 		}
-		manifest.Version = strings.TrimPrefix(version, "v")
 	}
 
-	// If no release notes specified, generate one from the latest tag, if present and homepage is configured.
-	if manifest.ReleaseNotesURL == "" && BuildTagLatest != "" && manifest.HomepageURL != "" {
-		releaseNotesURL, err := url.JoinPath(manifest.HomepageURL, "releases", "tag", BuildTagLatest)
-		if err != nil {
-			return nil, errors.Wrap(err, "failed to build release notes URL")
+	// If no release notes specified, generate one from the manifest version or latest tag, if homepage is configured.
+	if manifest.ReleaseNotesURL == "" && manifest.HomepageURL != "" {
+		tagForReleaseNotes := ""
+		if manifest.Version != "" {
+			tagForReleaseNotes = "v" + strings.TrimPrefix(manifest.Version, "v")
+		} else if currentTag != "" {
+			tagForReleaseNotes = currentTag
+		} else if BuildTagLatest != "" {
+			tagForReleaseNotes = BuildTagLatest
 		}
-		manifest.ReleaseNotesURL = releaseNotesURL
+		if tagForReleaseNotes != "" {
+			releaseNotesURL, err := url.JoinPath(manifest.HomepageURL, "releases", "tag", tagForReleaseNotes)
+			if err != nil {
+				return nil, errors.Wrap(err, "failed to build release notes URL")
+			}
+			manifest.ReleaseNotesURL = releaseNotesURL
+		}
 	}
 
 	return &manifest, nil
