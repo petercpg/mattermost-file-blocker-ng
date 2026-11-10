@@ -15,7 +15,7 @@ permissions:
 jobs:
   lint:
     name: Lint & Style Check
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,16 +26,8 @@ jobs:
           go-version-file: go.mod
           cache: true
 
-      - name: Verify Manifest & Formats
-        run: |
-          go vet ./...
-          make apply
-
-      - name: Run golangci-lint
-        uses: golangci/golangci-lint-action@v6
-        with:
-          version: v1.64.5
-          args: --timeout=5m
+      - name: Check style, manifest & lint
+        run: make check-style
 
   test:
     name: Unit Tests & Coverage
